@@ -1,12 +1,13 @@
 #include "filehandler.c"
 #include "headers.c"
+#include "sudokuhandler.c"
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
-void handleIncommingRequests(int sock, struct sockaddr *address, socklen_t *address_len) {
+void handleIncomingRequests(int sock, struct sockaddr *address, socklen_t *address_len) {
   int conn;
   int readSize;
   char *charBuffer = malloc(8141);
@@ -24,9 +25,11 @@ void handleIncommingRequests(int sock, struct sockaddr *address, socklen_t *addr
     http_header_t *header = decodeHTTPHeader(charBuffer, readSize);
     printf("Url: %s\nType: %s\n", header->relative_url, header->request_type);
     printAll(header->headers);
-    if (strcmp(header->relative_url, "/")) {
+    if (strcmp(header->relative_url, "/") == 0) {
       handleFileRequest(header, conn);
-    } else if (strcmp(header->relative_url, "/test.html")) {
+    } else if (strcmp(header->relative_url, "/sendsudoku") == 0) {
+      handleSendSudoku(header, conn);
+    } else if (strstr(header->relative_url, "/test.html")) {
       handleFileRequest(header, conn);
     } else {
       send(conn, NOTFOUNDRESPONSE, strlen(NOTFOUNDRESPONSE), 0);

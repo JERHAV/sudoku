@@ -11,8 +11,11 @@
 #define METHOD_NOT_ALLOWED_RESPONSE "HTTP/1.1 405 Method Not Allowed\r\nContent-Type: textplain\r\n\r\n405 Method Not Allowed"
 #define URI_TOO_LONG_RESPONSE "HTTP/1.1 414 URI Too Long\r\nContent-Type: textplain\r\n\r\n414 URI Too Long"
 
+#define BAD_REQUEST_RESPONSE_HEADER "HTTP/1.1 400 BAD RESPONSE\r\\nCOntent-Type: text/plain\r\n\r\n"
+
 #define OK_RESPONSE "HTTP/1.1 200 OK\r\n"
 #define OK_RESPONSE_LENGTH 17
+#define OK_RESPONSE_TEXT_HEADER OK_RESPONSE"Content-Type: textplain\r\n\r\n"
 
 typedef struct kvll {
   char *key;

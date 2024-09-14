@@ -1,3 +1,5 @@
+#ifndef SUDOKU
+#define SUDOKU
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +9,7 @@
 
 struct location {
   int value;
-  uint16_t possibleValues;
+  uint16_t impossibleValues;
 };
 
 typedef struct coordStruct {
@@ -17,9 +19,9 @@ typedef struct coordStruct {
 struct location *NewLocation() {
   struct location *l = (struct location *)malloc(sizeof(struct location));
   l->value = 0;
-  l->possibleValues = 0;
+  l->impossibleValues = 0;
   for (int i = 0; i < 9; i++) {
-    l->possibleValues |= (1 << i);
+    l->impossibleValues |= (1 << i);
   }
   return l;
 }
@@ -29,7 +31,7 @@ struct location *NewLocation() {
     return 0;
 
   for (int i = 0; i < 9; i++) {
-    l->value += (l->possibleValues == (1 << i)) * (i + 1);
+    l->value += (l->impossibleValues == (1 << i)) * (i + 1);
   }
 
   if (l->value != 0)
@@ -45,7 +47,7 @@ struct collection {
   for (int i = 0; i < 9; i++) {
     if (c.locations[i]->value != 0) {
       for (int j = 0; j < 9; j++) {
-        c.locations[j]->possibleValues &= ~(1 << (c.locations[i]->value - 1));
+        c.locations[j]->impossibleValues &= ~(1 << (c.locations[i]->value - 1));
       }
     }
   }
@@ -58,7 +60,7 @@ struct collection {
       return 0;
 
     if (c.locations[i]->value == 0 &&
-        (c.locations[i]->possibleValues & (1 << (value - 1)))) {
+        (c.locations[i]->impossibleValues & (1 << (value - 1)))) {
       if (tbd != NULL)
         return 0;
       tbd = c.locations[i];
@@ -112,7 +114,7 @@ struct sudokuToSolve {
       sudoku->collections[i + 9].locations[j] = sudoku->locations[j][i];
     }
   }
-  printf("succesfully created line collections\n");
+  printf("successfully created line collections\n");
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
       for (int k = 0; k < 3; k++) {
@@ -136,8 +138,14 @@ struct sudokuToSolve *newDefaultSudoku() {
   return sudoku;
 }
 
+void destructSudoku(struct sudokuToSolve *sudoku) {
+  free(sudoku->locations);
+  free(sudoku->collections);
+  free(sudoku);
+}
+
  int setLocation(struct sudokuToSolve *sudoku, int value, coord c) {
-  if (sudoku->locations[c.i][c.j]->possibleValues && ~(1 >> (value - 1))) {
+  if (sudoku->locations[c.i][c.j]->impossibleValues && ~(1 >> (value - 1))) {
     sudoku->locations[c.i][c.j]->value = value;
     return 1;
   }
@@ -193,3 +201,4 @@ struct sudokuToSolve *newDefaultSudoku() {
 
   return 1;
 }
+#endif

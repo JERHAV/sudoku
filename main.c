@@ -1,5 +1,4 @@
 #include "setupsocket.c"
-#include "sudoku.c"
 #include "requesthandling.c"
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -13,17 +12,12 @@ int main() {
   socklen_t address_len = sizeof(address);
   int sock = setupIP6Socket((struct sockaddr *)&address, address_len);
 
-  struct sudokuToSolve *sudoku = newDefaultSudoku();
-  setLocation(sudoku, 1, (coord){1, 1});
-
-  printf(calculateResult(sudoku) ? "succes" : "failure");
-  
-  handleIncommingRequests(sock, (struct sockaddr *)&address, &address_len);
+  handleIncomingRequests(sock, (struct sockaddr *)&address, &address_len);
   close(sock);
   return 0;
 }
 
-// TODO: Add enpoints for adding numbers and returning ok if succesfull
+// TODO: Add endpoints for adding numbers and returning ok if succesfull
 // TODO: Add endpoint to request calculation and return endresult (and if succesfull)
 // TODO: Add endpoint to add collection
 // TODO: Create webpage that interacts with endpoint (maybe with HTMX)
