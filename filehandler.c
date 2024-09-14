@@ -7,7 +7,8 @@
 #define DEFAULT_FILE "/index.html"
 
 void handleFileRequest(http_header_t *header, const int conn) {
-    if (!strcmp(header->request_type, "GET")){
+    if (strcmp(header->request_type, "GET")){
+        printf("Request type: %s", header->request_type);
         send(conn, METHOD_NOT_ALLOWED_RESPONSE, strlen(METHOD_NOT_ALLOWED_RESPONSE), 0);
         return;
     }
