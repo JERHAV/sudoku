@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+  <script src="https://unpkg.com/htmx.org@2.0.2"></script>
+<body>
+
+
+<div class="center_div">
+      <form action="/sendsudoku" method="post">
+      <input type="number" id="00" name="00" min="1" max="9"/>
+      <input type="number" id="01" name="01" min="1" max="9"/>
+      <input type="number" id="02" name="02" min="1" max="9"/>
+      <input type="number" id="03" name="03" min="1" max="9"/>
+      <input type="number" id="04" name="04" min="1" max="9"/>
+      <input type="number" id="05" name="05" min="1" max="9"/>
+      <input type="number" id="06" name="06" min="1" max="9"/>
+      <input type="number" id="07" name="07" min="1" max="9"/>
+      <input type="number" id="08" name="08" min="1" max="9"/>
+			<br />
+      <input type="number" id="10" name="10" min="1" max="9"/>
+      <input type="number" id="11" name="11" min="1" max="9"/>
+      <input type="number" id="12" name="12" min="1" max="9"/>
+      <input type="number" id="13" name="13" min="1" max="9"/>
+      <input type="number" id="14" name="14" min="1" max="9"/>
+      <input type="number" id="15" name="15" min="1" max="9"/>
+      <input type="number" id="16" name="16" min="1" max="9"/>
+      <input type="number" id="17" name="17" min="1" max="9"/>
+      <input type="number" id="18" name="18" min="1" max="9"/>
+			<br />
+      <input type="number" id="20" name="20" min="1" max="9"/>
+      <input type="number" id="21" name="21" min="1" max="9"/>
+      <input type="number" id="22" name="22" min="1" max="9"/>
+      <input type="number" id="23" name="23" min="1" max="9"/>
+      <input type="number" id="24" name="24" min="1" max="9"/>
+      <input type="number" id="25" name="25" min="1" max="9"/>
+      <input type="number" id="26" name="26" min="1" max="9"/>
+      <input type="number" id="27" name="27" min="1" max="9"/>
+      <input type="number" id="28" name="28" min="1" max="9"/>
+			<br />
+      <input type="number" id="30" name="30" min="1" max="9"/>
+      <input type="number" id="31" name="31" min="1" max="9"/>
+      <input type="number" id="32" name="32" min="1" max="9"/>
+      <input type="number" id="33" name="33" min="1" max="9"/>
+      <input type="number" id="34" name="34" min="1" max="9"/>
+      <input type="number" id="35" name="35" min="1" max="9"/>
+      <input type="number" id="36" name="36" min="1" max="9"/>
+      <input type="number" id="37" name="37" min="1" max="9"/>
+      <input type="number" id="38" name="38" min="1" max="9"/>
+			<br />
+      <input type="number" id="40" name="40" min="1" max="9"/>
+      <input type="number" id="41" name="41" min="1" max="9"/>
+      <input type="number" id="42" name="42" min="1" max="9"/>
+      <input type="number" id="43" name="43" min="1" max="9"/>
+      <input type="number" id="44" name="44" min="1" max="9"/>
+      <input type="number" id="45" name="45" min="1" max="9"/>
+      <input type="number" id="46" name="46" min="1" max="9"/>
+      <input type="number" id="47" name="47" min="1" max="9"/>
+      <input type="number" id="48" name="48" min="1" max="9"/>
+			<br />
+      <input type="number" id="50" name="50" min="1" max="9"/>
+      <input type="number" id="51" name="51" min="1" max="9"/>
+      <input type="number" id="52" name="52" min="1" max="9"/>
+      <input type="number" id="53" name="53" min="1" max="9"/>
+      <input type="number" id="54" name="54" min="1" max="9"/>
+      <input type="number" id="55" name="55" min="1" max="9"/>
+      <input type="number" id="56" name="56" min="1" max="9"/>
+      <input type="number" id="57" name="57" min="1" max="9"/>
+      <input type="number" id="58" name="58" min="1" max="9"/>
+			<br />
+      <input type="number" id="60" name="60" min="1" max="9"/>
+      <input type="number" id="61" name="61" min="1" max="9"/>
+      <input type="number" id="62" name="62" min="1" max="9"/>
+      <input type="number" id="63" name="63" min="1" max="9"/>
+      <input type="number" id="64" name="64" min="1" max="9"/>
+      <input type="number" id="65" name="65" min="1" max="9"/>
+      <input type="number" id="66" name="66" min="1" max="9"/>
+      <input type="number" id="67" name="67" min="1" max="9"/>
+      <input type="number" id="68" name="68" min="1" max="9"/>
+			<br />
+      <input type="number" id="70" name="70" min="1" max="9"/>
+      <input type="number" id="71" name="71" min="1" max="9"/>
+      <input type="number" id="72" name="72" min="1" max="9"/>
+      <input type="number" id="73" name="73" min="1" max="9"/>
+      <input type="number" id="74" name="74" min="1" max="9"/>
+      <input type="number" id="75" name="75" min="1" max="9"/>
+      <input type="number" id="76" name="76" min="1" max="9"/>
+      <input type="number" id="77" name="77" min="1" max="9"/>
+      <input type="number" id="78" name="78" min="1" max="9"/>
+			<br />
+      <input type="number" id="80" name="80" min="1" max="9"/>
+      <input type="number" id="81" name="81" min="1" max="9"/>
+      <input type="number" id="82" name="82" min="1" max="9"/>
+      <input type="number" id="83" name="83" min="1" max="9"/>
+      <input type="number" id="84" name="84" min="1" max="9"/>
+      <input type="number" id="85" name="85" min="1" max="9"/>
+      <input type="number" id="86" name="86" min="1" max="9"/>
+      <input type="number" id="87" name="87" min="1" max="9"/>
+      <input type="number" id="88" name="88" min="1" max="9"/>
+			<br />
+      <input type="submit" value="submit"/>
+      </form>
+</body>
+</html>
+
