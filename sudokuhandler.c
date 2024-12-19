@@ -3,13 +3,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 #define UNABLE_TO_DECODE_SUDOKU_RESPONSE BAD_REQUEST_RESPONSE_HEADER "Unable to read sudoku request"
 #define INCORRECTVALUE_TEMPLATE OK_RESPONSE_TEXT_HEADER "Incorrect value: %d for %d,%d"
 
 sudoku_t *decodeSudokuRequest(char *requestBody, const int conn) {
   uint8_t state = 0;
-  char incorrectValueError[strlen(INCORRECTVALUE_TEMPLATE) + 3];
+  char incorrectValueError[strlen(INCORRECTVALUE_TEMPLATE) + 6];
   int i = 0;
   uint8_t x[2];
   uint8_t value;
@@ -22,7 +23,7 @@ sudoku_t *decodeSudokuRequest(char *requestBody, const int conn) {
         goto errorResponse;
       }
       state++;
-      x[state-1] = requestBody[i] - '0';
+      x[state - 1] = requestBody[i] - '0';
       i++;
       break;
     case 2:
@@ -62,8 +63,7 @@ errorResponse:
   free(s);
   return NULL;
 incorrectvalue:
-  sprintf(incorrectValueError, INCORRECTVALUE_TEMPLATE, value, x[0], x[1]);
-  send(conn, &incorrectValueError, strlen(incorrectValueError), 0);
+  printf(INCORRECTVALUE_TEMPLATE, value, x[0], x[1]);
   return s;
 }
 
@@ -77,10 +77,42 @@ void handleSendSudoku(http_header_t *header, const int conn) {
     return;
   }
 
+  FILE *file = NULL;
   sudoku_t *s = decodeSudokuRequest(header->body, conn);
-  if (s == NULL) {
-    return;
+  int sum = 0;
+  if (s != NULL) {
+    for (int i = 0; i < 9; i++) {
+      for (int j = 0; j < 9; j++) {
+        sum += s->locations[i][j].value;
+      }
+    }
   }
 
-  printSudoku(s);
+  if (sum == 405) {
+    file = fopen("pages/gedicht.html", "r");
+  } else {
+    file = fopen("pages/incorrect.html", "r");
+  }
+  size_t length = 0;
+  if (file == NULL) {
+    printf("file not found\n");
+    length = strlen(NOTFOUNDRESPONSE);
+    send(conn, NOTFOUNDRESPONSE, length, 0);
+    return;
+  } else {
+    printf("opened file\n");
+    kvll_t *headers = addHeader(NULL, "Content-Type", "text/html");
+    printf("Added Headers\n");
+    char *header_text = headerText(headers, &length);
+    printf("%s\nLength: %zu\n", header_text, length);
+
+    send(conn, OK_RESPONSE, OK_RESPONSE_LENGTH, 0);
+    send(conn, header_text, length, 0);
+    send(conn, "\r\n", 2, 0);
+
+    char read;
+    while ((read = fgetc(file)) != EOF) {
+      send(conn, &read, 1, 0);
+    }
+  }
 }
